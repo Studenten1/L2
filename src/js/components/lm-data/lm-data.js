@@ -36,12 +36,18 @@ customElements.define('lm-data',
 
       this.originalData = []
       this.sortedData = []
+      this.average = 0
+      this.maximum = 0
+      this.minimum = 0
+      this.median = 0
+      this.range = 0
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
     connectedCallback () {
+      this.#sortData()
     }
 
     /**
@@ -63,19 +69,53 @@ customElements.define('lm-data',
         }
       }
       this.originalData = originalData
-      this.#sortData()
     }
 
     /**
      * Creates a sorted copy of the original array.
      *
-     * @param {number[]} originalData - The original array
      */
     #sortData () {
       const sortedCopy = this.originalData.slice()
       sortedCopy.sort((a, b) => a - b)
       console.log(sortedCopy)
       this.sortedData = sortedCopy
+    }
+
+    /**
+     * Sets the average value of the data.
+     *
+     */
+    #setAverage () {
+      const total = this.sortedData.reduce((x, y) => x + y)
+      const average = (total / this.sortedData.length)
+      this.average = average
+    }
+
+    /**
+     * Sets the maximum value of the data.
+     *
+     */
+    #setMaximum () {
+      const max = this.sortedData[(this.sortedData.length - 1)]
+      this.maximum = max
+    }
+
+    /**
+     * Sets the minimum value of the data.
+     *
+     */
+    #setMinimum () {
+      const min = this.sortedData[0]
+      this.minimum = min
+    }
+
+    /**
+     * Sets the range of the data.
+     *
+     */
+    #setRange () {
+      this.range = (this.sortedData[(this.sortedData.length - 1)] - this.sortedData[0])
     }
   }
 )

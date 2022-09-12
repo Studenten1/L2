@@ -1,6 +1,6 @@
-# &lt;lm-data-app&gt;
+# &lt;lm-data&gt;
 
-A web component that represents a data app.
+A web component that represents a data module.
 
 ## Attributes
 
@@ -13,5 +13,5 @@ This web component doesn't dispatch any events.
 ## Example
 
 ```html
-<lm-hello-app></lm-hello-app>
+<lm-data></lm-data>
 ```

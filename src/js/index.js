@@ -14,3 +14,5 @@ try {
 } catch (e) {
   console.error(e.message)
 }
+
+/** Här ska det alltså finnas minst fem publika metoder som kan anropas av användaren */
