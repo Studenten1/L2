@@ -41,13 +41,14 @@ customElements.define('lm-data',
       this.minimum = 0
       this.median = 0
       this.range = 0
+      this.standardDeviation = 0
+      this.modeValue = []
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
     connectedCallback () {
-      this.#sortData()
     }
 
     /**
@@ -69,13 +70,30 @@ customElements.define('lm-data',
         }
       }
       this.originalData = originalData
+      this.#startSummary()
+    }
+
+    /**
+     * Calls the methods which compile the data's descriptive statistics.
+     *
+     */
+    async #startSummary () {
+      this.#sortData().then(() => {
+        this.#setAverage()
+        this.#setMaximum()
+        this.#setMinimum()
+        this.#setRange()
+        this.#setStandardDev()
+        this.#setModeValue()
+        this.#setMedian()
+      })
     }
 
     /**
      * Creates a sorted copy of the original array.
      *
      */
-    #sortData () {
+    async #sortData () {
       const sortedCopy = this.originalData.slice()
       sortedCopy.sort((a, b) => a - b)
       console.log(sortedCopy)
@@ -116,6 +134,81 @@ customElements.define('lm-data',
      */
     #setRange () {
       this.range = (this.sortedData[(this.sortedData.length - 1)] - this.sortedData[0])
+    }
+
+    /**
+     * Sets the standard deviation of the data.
+     *
+     */
+    #setStandardDev () {
+      const output = []
+      for (let i = 0; i < this.sortedData.length; i++) {
+        const first = ((this.sortedData[i] - this.average) ** 2)
+        output[i] = first
+      }
+      const standard = ((output.reduce((x, y) => x + y)) / this.sortedData.length) ** 0.5
+      this.standardDeviation = standard
+    }
+
+    /**
+     * Sets the mode value of the data.
+     *
+     */
+    #setModeValue () {
+      const frequencyTable = {}
+
+      for (const number of this.sortedData) {
+        if (frequencyTable[number]) {
+          frequencyTable[number]++
+        } else {
+          frequencyTable[number] = 1
+        }
+      }
+
+      const maxFrequency = Object.values(frequencyTable)
+        .sort((a, b) => a - b)
+        .pop()
+
+      const modeStringArray = Object.keys(frequencyTable)
+        .filter(number => frequencyTable[number] === maxFrequency)
+
+      for (let i = 0; i < modeStringArray.length; i++) {
+        this.modeValue[i] = Number.parseFloat(modeStringArray[i])
+      }
+      this.modeValue.sort((a, b) => a - b)
+    }
+
+    /**
+     * Sets the median value of the data.
+     *
+     */
+    #setMedian () {
+      if (this.sortedData.length % 2 === 0) {
+        const middle = (this.sortedData.length / 2)
+        const two = (this.sortedData[middle - 1] + this.sortedData[middle])
+        this.median = (two / 2)
+      } else if (this.sortedData.length % 2 === 1) {
+        this.median = this.sortedData[Math.floor(this.sortedData.length / 2)]
+      }
+    }
+
+    /**
+     * Returns several descriptive statistics (average, maximum, median, minimum,
+     * mode, range and standard deviation) from the data.
+     *
+     * @returns {object} Statistics - An object whose properties correspond to the descriptive statistics from the data set.
+     */
+    getStatistics () {
+      const Statistics = {
+        average: this.average,
+        maximum: this.maximum,
+        median: this.median,
+        minimum: this.minimum,
+        mode: this.modeValue,
+        range: this.range,
+        standardDeviation: this.standardDeviation
+      }
+      return Statistics
     }
   }
 )
