@@ -13,6 +13,7 @@ try {
   dataModule.inputData([4, 8, 2, 4, 5])
   const statistics = dataModule.getStatistics()
   console.log(statistics)
+  dataModule.showDiagrams()
 } catch (e) {
   console.error(e.message)
 }

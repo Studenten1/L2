@@ -24,6 +24,13 @@ customElements.define('lm-data',
    */
   class extends HTMLElement {
     /**
+     * The lm-diagram element.
+     *
+     * @type {HTMLElement}
+     */
+    #lmDiagram
+
+    /**
      * Creates an instance of the current type.
      */
     constructor () {
@@ -33,6 +40,9 @@ customElements.define('lm-data',
       // append the template to the shadow root.
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
+
+      // Get the elements in the shadow root.
+      this.#lmDiagram = this.shadowRoot.querySelector('lm-diagram')
 
       this.originalData = []
       this.sortedData = []
@@ -209,6 +219,14 @@ customElements.define('lm-data',
         standardDeviation: this.standardDeviation
       }
       return Statistics
+    }
+
+    /**
+     * Shows the diagrams.
+     * 
+     */
+     showDiagrams () {
+    
     }
   }
 )
