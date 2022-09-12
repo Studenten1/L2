@@ -20,7 +20,7 @@ template.innerHTML = `
 
 customElements.define('lm-data',
   /**
-   * Represents a data module.
+   * Represents the data.
    */
   class extends HTMLElement {
     /**
@@ -34,7 +34,8 @@ customElements.define('lm-data',
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
 
-      this.data = []
+      this.originalData = []
+      this.sortedData = []
     }
 
     /**
@@ -46,22 +47,35 @@ customElements.define('lm-data',
     /**
      * Checks the input and adds it to the data variable.
      *
-     * @param {number[]} data - The input array of data.
+     * @param {number[]} originalData - The input array of data.
      */
-    inputData (data) {
-      if (!Array.isArray(data)) {
+    inputData (originalData) {
+      if (!Array.isArray(originalData)) {
         throw new TypeError('The passed argument is not an array.')
-      } else if (data.length === 0) {
+      } else if (originalData.length === 0) {
         throw new Error('The passed array contains no elements.')
       }
-      for (let i = 0; i < data.length; i++) {
-        if (Number.isNaN(data[i])) {
+      for (let i = 0; i < originalData.length; i++) {
+        if (Number.isNaN(originalData[i])) {
           throw new TypeError('The passed array may only contain valid numbers.')
-        } else if (!(typeof (data[i]) === 'number')) {
+        } else if (!(typeof (originalData[i]) === 'number')) {
           throw new TypeError('The passed array may only contain valid numbers.')
         }
       }
-      this.data = data
+      this.originalData = originalData
+      this.#sortData()
+    }
+
+    /**
+     * Creates a sorted copy of the original array.
+     *
+     * @param {number[]} originalData - The original array
+     */
+    #sortData () {
+      const sortedCopy = this.originalData.slice()
+      sortedCopy.sort((a, b) => a - b)
+      console.log(sortedCopy)
+      this.sortedData = sortedCopy
     }
   }
 )

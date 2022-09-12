@@ -22,7 +22,7 @@ template.innerHTML = `
 
 customElements.define('lm-diagram',
   /**
-   * Represents a diagram module.
+   * Represents the diagram.
    */
   class extends HTMLElement {
     /**
