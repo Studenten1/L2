@@ -11,6 +11,9 @@ import '../lm-diagram'
 const template = document.createElement('template')
 template.innerHTML = `
  <style>
+   div {
+      margin-left: 35%;
+   }
  </style>
 
  <div>
@@ -80,6 +83,7 @@ customElements.define('lm-data',
         }
       }
       this.originalData = originalData
+      this.#sortData()
       this.#startSummary()
     }
 
@@ -87,25 +91,22 @@ customElements.define('lm-data',
      * Calls the methods which compile the data's descriptive statistics.
      *
      */
-    async #startSummary () {
-      this.#sortData().then(() => {
-        this.#setAverage()
-        this.#setMaximum()
-        this.#setMinimum()
-        this.#setRange()
-        this.#setStandardDev()
-        this.#setModeValue()
-        this.#setMedian()
-      }).then(() => {
-        this.#sendInfo()
-      })
+    #startSummary () {
+      this.#setAverage()
+      this.#setMaximum()
+      this.#setMinimum()
+      this.#setRange()
+      this.#setStandardDev()
+      this.#setModeValue()
+      this.#setMedian()
+      this.#sendInfo()
     }
 
     /**
      * Creates a sorted copy of the original array.
      *
      */
-    async #sortData () {
+    #sortData () {
       const sortedCopy = this.originalData.slice()
       sortedCopy.sort((a, b) => a - b)
       console.log(sortedCopy)
@@ -205,18 +206,18 @@ customElements.define('lm-data',
     }
 
     /**
-     * Sends the statistics to the lm-diagram component.
+     * Sends the modified statistics to the lm-diagram component.
      *
      */
     #sendInfo () {
       const Info = {
-        average: this.average,
-        maximum: this.maximum,
-        median: this.median,
-        minimum: this.minimum,
+        average: Math.round(this.average * 100) / 100,
+        maximum: Math.round(this.maximum * 100) / 100,
+        median: Math.round(this.median * 100) / 100,
+        minimum: Math.round(this.minimum * 100) / 100,
         mode: this.modeValue,
-        range: this.range,
-        standardDeviation: this.standardDeviation
+        range: Math.round(this.range * 100) / 100,
+        standardDeviation: Math.round(this.standardDeviation * 100) / 100
       }
       this.#lmDiagram.inputSummaryData(Info)
     }
@@ -241,11 +242,19 @@ customElements.define('lm-data',
     }
 
     /**
-     * Shows the diagrams.
+     * Presents the statistics table.
      *
      */
-    showDiagrams () {
+    showTable () {
+      this.#lmDiagram.drawTable()
+    }
 
+    /**
+     * Presents the statistics table.
+     *
+     */
+     getTableImg () {
+      
     }
   }
 )

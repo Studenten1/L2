@@ -12,6 +12,9 @@ const NR_OF_VALUETYPES = 7
 const template = document.createElement('template')
 template.innerHTML = `
  <style>
+   div {
+      margin: o auto;
+   }
  </style>
 
  <div>
@@ -95,8 +98,21 @@ customElements.define('lm-diagram',
         c.lineTo(150, 220)
         c.stroke()
 
+        c.font = 'bold 16px serif'
+        c.fillText('Descriptive statistics', 80, 20)
+
         for (let i = 0; i < NR_OF_VALUETYPES; i++) {
           const y = (28 * i) + 28
+          const column = y + 20
+
+          let title = Object.keys(this.descriptiveStatistics)[i]
+          if (title === 'standardDeviation') {
+            title = 'standard deviation'
+          }
+
+          c.font = '14px serif'
+          c.fillText(`${title}`, 10, column)
+          c.fillText(`${Object.values(this.descriptiveStatistics)[i]}`, 160, column)
           c.beginPath()
           c.moveTo(0, y)
           c.lineTo(300, y)
