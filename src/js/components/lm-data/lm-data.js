@@ -96,6 +96,8 @@ customElements.define('lm-data',
         this.#setStandardDev()
         this.#setModeValue()
         this.#setMedian()
+      }).then(() => {
+        this.#sendInfo()
       })
     }
 
@@ -203,6 +205,23 @@ customElements.define('lm-data',
     }
 
     /**
+     * Sends the statistics to the lm-diagram component.
+     *
+     */
+    #sendInfo () {
+      const Info = {
+        average: this.average,
+        maximum: this.maximum,
+        median: this.median,
+        minimum: this.minimum,
+        mode: this.modeValue,
+        range: this.range,
+        standardDeviation: this.standardDeviation
+      }
+      this.#lmDiagram.inputSummaryData(Info)
+    }
+
+    /**
      * Returns several descriptive statistics (average, maximum, median, minimum,
      * mode, range and standard deviation) from the data.
      *
@@ -223,10 +242,10 @@ customElements.define('lm-data',
 
     /**
      * Shows the diagrams.
-     * 
+     *
      */
-     showDiagrams () {
-    
+    showDiagrams () {
+
     }
   }
 )

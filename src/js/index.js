@@ -11,8 +11,8 @@ const dataModule = document.getElementById('dataModule')
 
 try {
   dataModule.inputData([4, 8, 2, 4, 5])
-  const statistics = dataModule.getStatistics()
-  console.log(statistics)
+  const result = dataModule.getStatistics()
+  console.log(result)
   dataModule.showDiagrams()
 } catch (e) {
   console.error(e.message)
