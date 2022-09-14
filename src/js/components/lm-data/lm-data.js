@@ -258,5 +258,25 @@ customElements.define('lm-data',
       this.#lmDiagram.drawTable()
       return this.#lmDiagram.returnTablePath()
     }
+
+    /**
+     * Calls the method drawBox() and returns the image path.
+     *
+     * @returns {string} - the path to the boxplot image.
+     */
+    getBoxPlotImgPath () {
+      this.#lmDiagram.drawBox()
+      return this.#lmDiagram.returnBoxPath()
+    }
+
+    /**
+     * Calls the method drawHistogram() and returns the image path.
+     *
+     * @returns {string} - the path to the histogram image.
+     */
+    getHistogramImgPath () {
+      this.#lmDiagram.drawHistogram()
+      return this.#lmDiagram.returnHistogramPath()
+    }
   }
 )

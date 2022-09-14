@@ -6,6 +6,8 @@
  */
 
 const TABLE_URL = (new URL('./images/table.png', import.meta.url)).href
+const BOX_URL = (new URL('./images/box.png', import.meta.url)).href
+const HISTOGRAM_URL = (new URL('./images/histogram.png', import.meta.url)).href
 const NR_OF_VALUETYPES = 7
 
 // Define template.
@@ -22,7 +24,9 @@ template.innerHTML = `
       <img id="imgTable">
     </canvas>
     <canvas id="boxPlot"></canvas>
+      <img id="imgBox">
     <canvas id="histogram"></canvas>
+      <img id="imgHistogram">
  </div>
  `
 
@@ -46,6 +50,8 @@ customElements.define('lm-diagram',
      * @type {Image}
      */
     #imgTable
+    #imgBox
+    #imgHistogram
 
     /**
      * Creates an instance of the current type.
@@ -62,7 +68,10 @@ customElements.define('lm-diagram',
       this.#table = this.shadowRoot.querySelector('#table')
       this.#boxPlot = this.shadowRoot.querySelector('#boxPlot')
       this.#histogram = this.shadowRoot.querySelector('#histogram')
+
       this.#imgTable = this.shadowRoot.querySelector('#imgTable')
+      this.#imgBox = this.shadowRoot.querySelector('#imgBox')
+      this.#imgHistogram = this.shadowRoot.querySelector('#imgHistogram')
 
       this.descriptiveStatistics = {}
     }
@@ -132,6 +141,110 @@ customElements.define('lm-diagram',
      */
     returnTablePath () {
       return TABLE_URL
+    }
+
+    /**
+     * Draws the boxplot.
+     *
+     */
+    drawBox () {
+      const c = this.#boxPlot.getContext('2d')
+      this.#imgBox.addEventListener('load', (event) => {
+        c.drawImage(this.#imgBox, 0, 0)
+        c.rect(0, 0, 300, 220)
+
+        c.stroke()
+        c.beginPath()
+        c.moveTo(150, 28)
+        c.lineTo(150, 220)
+        c.stroke()
+
+        c.font = 'bold 16px serif'
+        c.fillText('Descriptive statistics', 80, 20)
+
+        for (let i = 0; i < NR_OF_VALUETYPES; i++) {
+          const y = (28 * i) + 28
+          const column = y + 20
+
+          let title = Object.keys(this.descriptiveStatistics)[i]
+          if (title === 'standardDeviation') {
+            title = 'standard deviation'
+          }
+
+          c.font = '14px serif'
+          c.fillText(`${title}`, 10, column)
+          c.fillText(`${Object.values(this.descriptiveStatistics)[i]}`, 160, column)
+          c.beginPath()
+          c.moveTo(0, y)
+          c.lineTo(300, y)
+          c.stroke()
+        }
+
+        event.stopPropagation()
+        event.preventDefault()
+      })
+      this.#imgBox.src = `${BOX_URL}`
+    }
+
+    /**
+     * Returns the image path to the boxplot.
+     *
+     * @returns {string} - The path to the boxplot image.
+     */
+    returnBoxPath () {
+      return BOX_URL
+    }
+
+    /**
+     * Draws the histogram.
+     *
+     */
+    drawHistogram () {
+      const c = this.#histogram.getContext('2d')
+      this.#imgTable.addEventListener('load', (event) => {
+        c.drawImage(this.#imgHistogram, 0, 0)
+        c.rect(0, 0, 300, 220)
+
+        c.stroke()
+        c.beginPath()
+        c.moveTo(150, 28)
+        c.lineTo(150, 220)
+        c.stroke()
+
+        c.font = 'bold 16px serif'
+        c.fillText('Descriptive statistics', 80, 20)
+
+        for (let i = 0; i < NR_OF_VALUETYPES; i++) {
+          const y = (28 * i) + 28
+          const column = y + 20
+
+          let title = Object.keys(this.descriptiveStatistics)[i]
+          if (title === 'standardDeviation') {
+            title = 'standard deviation'
+          }
+
+          c.font = '14px serif'
+          c.fillText(`${title}`, 10, column)
+          c.fillText(`${Object.values(this.descriptiveStatistics)[i]}`, 160, column)
+          c.beginPath()
+          c.moveTo(0, y)
+          c.lineTo(300, y)
+          c.stroke()
+        }
+
+        event.stopPropagation()
+        event.preventDefault()
+      })
+      this.#imgHistogram.src = `${HISTOGRAM_URL}`
+    }
+
+    /**
+     * Returns the image path to the histogram.
+     *
+     * @returns {string} - The path to the histogram image.
+     */
+    returnHistogramPath () {
+      return HISTOGRAM_URL
     }
   }
 )
