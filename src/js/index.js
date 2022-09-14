@@ -15,10 +15,17 @@ try {
   const result = dataModule.getStatistics()
   console.log(result)
 
-  dataModule.showTable()
+  const sortedValues = dataModule.getSortedData()
+  console.log(sortedValues)
 
-  const tableImg = dataModule.getTableImg()
+  const tablePath = dataModule.getTableImgPath()
+  console.log(tablePath)
 
+  const boxPath = dataModule.getBoxPlotImgPath()
+  console.log(boxPath)
+
+  const histogram = dataModule.getHistogramImgPath()
+  console.log(histogram)
 } catch (e) {
   console.error(e.message)
 }

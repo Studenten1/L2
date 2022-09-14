@@ -109,7 +109,6 @@ customElements.define('lm-data',
     #sortData () {
       const sortedCopy = this.originalData.slice()
       sortedCopy.sort((a, b) => a - b)
-      console.log(sortedCopy)
       this.sortedData = sortedCopy
     }
 
@@ -242,19 +241,22 @@ customElements.define('lm-data',
     }
 
     /**
-     * Presents the statistics table.
+     * Returns the array with data, now sorted from the lowest value to the highest.
      *
+     * @returns {number[]} - the sorted data array of numbers.
      */
-    showTable () {
-      this.#lmDiagram.drawTable()
+    getSortedData () {
+      return this.sortedData
     }
 
     /**
-     * Presents the statistics table.
+     * Calls the method drawTable() and returns the image path.
      *
+     * @returns {string} - the path to the table image.
      */
-     getTableImg () {
-      
+    getTableImgPath () {
+      this.#lmDiagram.drawTable()
+      return this.#lmDiagram.returnTablePath()
     }
   }
 )

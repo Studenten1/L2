@@ -8,8 +8,28 @@ Use the "npm i" command. If debug is needed, write "npm run dev" and view the ou
 
 # Public methods
 
-##
+## inputData()
 
-##
+This method takes an array of numbers which represents the data set. The method doesn't return any information. 
 
-##
+## getSortedData()
+
+This method returns the sent data array, now sorted from the lowest value to the highest.
+
+## getStatistics()
+
+Returns an object with several descriptive statistics (average, maximum, median, minimum,
+mode, range and standard deviation) which have been derived from the data.
+
+## getTableImgPath()
+
+This method returns the path to the table image.
+
+## getBoxPlotImgPath()
+
+This method returns the path to the boxplot image.
+
+## getHistogramImgPath()
+
+This method returns the path to the histogram image.
+

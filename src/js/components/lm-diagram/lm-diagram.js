@@ -18,7 +18,7 @@ template.innerHTML = `
  </style>
 
  <div>
-    <canvas id="table" width=400 height=400></canvas>
+    <canvas id="table" width=400 height=400 hidden></canvas>
       <img id="imgTable">
     </canvas>
     <canvas id="boxPlot"></canvas>
@@ -83,7 +83,7 @@ customElements.define('lm-diagram',
     }
 
     /**
-     * Draws the graph.
+     * Draws the table.
      *
      */
     drawTable () {
@@ -123,6 +123,15 @@ customElements.define('lm-diagram',
         event.preventDefault()
       })
       this.#imgTable.src = `${TABLE_URL}`
+    }
+
+    /**
+     * Returns the image path to the table.
+     *
+     * @returns {string} - The image path to the table image.
+     */
+    returnTablePath () {
+      return TABLE_URL
     }
   }
 )
