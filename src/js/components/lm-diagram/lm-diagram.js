@@ -15,7 +15,7 @@ const template = document.createElement('template')
 template.innerHTML = `
  <style>
    div {
-      margin: o auto;
+      margin: 0 auto;
    }
  </style>
 
@@ -23,9 +23,9 @@ template.innerHTML = `
     <canvas id="table" width=400 height=400 hidden></canvas>
       <img id="imgTable">
     </canvas>
-    <canvas id="boxPlot"></canvas>
+    <canvas id="boxPlot" width=600 height=600></canvas>
       <img id="imgBox">
-    <canvas id="histogram"></canvas>
+    <canvas id="histogram" width=600 height=600></canvas>
       <img id="imgHistogram">
  </div>
  `
@@ -74,6 +74,7 @@ customElements.define('lm-diagram',
       this.#imgHistogram = this.shadowRoot.querySelector('#imgHistogram')
 
       this.descriptiveStatistics = {}
+      this.nrOfValues = 0
     }
 
     /**
@@ -92,6 +93,15 @@ customElements.define('lm-diagram',
     }
 
     /**
+     * Sets the local variable.
+     *
+     * @param {number} nr - The number of values in the data set.
+     */
+    setNrOfDataValues (nr) {
+      this.nrOfValues = nr
+    }
+
+    /**
      * Draws the table.
      *
      */
@@ -100,8 +110,8 @@ customElements.define('lm-diagram',
       this.#imgTable.addEventListener('load', (event) => {
         c.drawImage(this.#imgTable, 0, 0)
         c.rect(0, 0, 300, 220)
-
         c.stroke()
+
         c.beginPath()
         c.moveTo(150, 28)
         c.lineTo(150, 220)
@@ -152,33 +162,25 @@ customElements.define('lm-diagram',
       this.#imgBox.addEventListener('load', (event) => {
         c.drawImage(this.#imgBox, 0, 0)
         c.rect(0, 0, 300, 220)
-
         c.stroke()
+
         c.beginPath()
-        c.moveTo(150, 28)
-        c.lineTo(150, 220)
+        c.moveTo(100, 50)
+        c.lineTo(100, 500)
+        c.lineTo(550, 500)
         c.stroke()
 
         c.font = 'bold 16px serif'
-        c.fillText('Descriptive statistics', 80, 20)
+        c.fillText('Histogram', 300, 20)
 
-        for (let i = 0; i < NR_OF_VALUETYPES; i++) {
-          const y = (28 * i) + 28
-          const column = y + 20
-
-          let title = Object.keys(this.descriptiveStatistics)[i]
-          if (title === 'standardDeviation') {
-            title = 'standard deviation'
-          }
-
-          c.font = '14px serif'
-          c.fillText(`${title}`, 10, column)
-          c.fillText(`${Object.values(this.descriptiveStatistics)[i]}`, 160, column)
+        for (let i = 0; i < this.nrOfValues; i++) {
+          const y = (10 * i) + 50
           c.beginPath()
-          c.moveTo(0, y)
-          c.lineTo(300, y)
+          c.moveTo(100, y)
+          c.lineTo(550, y)
           c.stroke()
         }
+        /* Fortsätt här! Tänk på att använda dig av frekvenser */
 
         event.stopPropagation()
         event.preventDefault()
@@ -203,34 +205,25 @@ customElements.define('lm-diagram',
       const c = this.#histogram.getContext('2d')
       this.#imgTable.addEventListener('load', (event) => {
         c.drawImage(this.#imgHistogram, 0, 0)
-        c.rect(0, 0, 300, 220)
 
-        c.stroke()
         c.beginPath()
-        c.moveTo(150, 28)
-        c.lineTo(150, 220)
+        c.moveTo(100, 50)
+        c.lineTo(100, 500)
+        c.lineTo(550, 500)
         c.stroke()
 
         c.font = 'bold 16px serif'
-        c.fillText('Descriptive statistics', 80, 20)
+        c.fillText('Histogram', 300, 20)
 
-        for (let i = 0; i < NR_OF_VALUETYPES; i++) {
-          const y = (28 * i) + 28
-          const column = y + 20
-
-          let title = Object.keys(this.descriptiveStatistics)[i]
-          if (title === 'standardDeviation') {
-            title = 'standard deviation'
-          }
-
-          c.font = '14px serif'
-          c.fillText(`${title}`, 10, column)
-          c.fillText(`${Object.values(this.descriptiveStatistics)[i]}`, 160, column)
+        for (let i = 0; i < this.nrOfValues; i++) {
+          const y = (10 * i) + 50
           c.beginPath()
-          c.moveTo(0, y)
-          c.lineTo(300, y)
+          c.moveTo(100, y)
+          c.lineTo(550, y)
           c.stroke()
         }
+
+        /* Fortsätt här! Tänk på att använda dig av frekvenser */
 
         event.stopPropagation()
         event.preventDefault()

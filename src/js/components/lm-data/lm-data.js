@@ -12,7 +12,7 @@ const template = document.createElement('template')
 template.innerHTML = `
  <style>
    div {
-      margin-left: 35%;
+      margin: 0 auto;
    }
  </style>
 
@@ -219,6 +219,7 @@ customElements.define('lm-data',
         standardDeviation: Math.round(this.standardDeviation * 100) / 100
       }
       this.#lmDiagram.inputSummaryData(Info)
+      this.#lmDiagram.setNrOfDataValues(this.originalData.length)
     }
 
     /**
