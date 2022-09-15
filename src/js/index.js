@@ -19,13 +19,19 @@ try {
   console.log(sortedValues)
 
   const tablePath = dataModule.getTableImgPath()
-  console.log(tablePath)
+  tablePath.then((value) => {
+    console.log(value)
+  })
 
   const boxPath = dataModule.getBoxPlotImgPath()
-  console.log(boxPath)
+  boxPath.then((value) => {
+    console.log(value)
+  })
 
-  const barchartPath = dataModule.getBarchartImgPath()
-  console.log(barchartPath)
+  const barchartPath = dataModule.getBarChartImgPath()
+  barchartPath.then((value) => {
+    console.log(value)
+  })
 } catch (e) {
   console.error(e.message)
 }

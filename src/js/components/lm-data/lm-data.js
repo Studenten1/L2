@@ -253,31 +253,40 @@ customElements.define('lm-data',
     /**
      * Calls the method drawTable() and returns the image path.
      *
-     * @returns {string} - the path to the table image.
+     * @returns {Promise} - the path to the table image.
      */
-    getTableImgPath () {
-      this.#lmDiagram.drawTable()
-      return this.#lmDiagram.returnTablePath()
+    async getTableImgPath () {
+      let url
+      await this.#lmDiagram.drawTable().then((value) => {
+        url = value
+      })
+      return url
     }
 
     /**
      * Calls the method drawBox() and returns the image path.
      *
-     * @returns {string} - the path to the boxplot image.
+     * @returns {Promise} - the path to the boxplot image.
      */
-    getBoxPlotImgPath () {
-      this.#lmDiagram.drawBox()
-      return this.#lmDiagram.returnBoxPath()
+    async getBoxPlotImgPath () {
+      let url
+      await this.#lmDiagram.drawBox().then((value) => {
+        url = value
+      })
+      return url
     }
 
     /**
      * Calls the method drawBarchart() and returns the image path.
      *
-     * @returns {string} - the path to the bar chart image.
+     * @returns {Promise} url - the path to the bar chart image.
      */
-    getBarchartImgPath () {
-      this.#lmDiagram.drawBarchart()
-      return this.#lmDiagram.returnBarchartPath()
+    async getBarChartImgPath () {
+      let url
+      await this.#lmDiagram.drawBarchart().then((value) => {
+        url = value
+      })
+      return url
     }
   }
 )

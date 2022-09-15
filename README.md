@@ -23,13 +23,13 @@ mode, range and standard deviation) which have been derived from the data.
 
 ## getTableImgPath()
 
-This method returns the path to the table image.
+This method returns the path to the table image as a Promise.
 
 ## getBoxPlotImgPath()
 
-This method returns the path to the boxplot image.
+This method returns the path to the boxplot image as a Promise.
 
-## getBarchartImgPath()
+## getBarChartImgPath()
 
-This method returns the path to the bar chart image.
+This method returns the path to the bar chart image as a Promise.
 
