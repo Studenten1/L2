@@ -29,7 +29,7 @@ This method returns the path to the table image.
 
 This method returns the path to the boxplot image.
 
-## getHistogramImgPath()
+## getBarchartImgPath()
 
-This method returns the path to the histogram image.
+This method returns the path to the bar chart image.
 

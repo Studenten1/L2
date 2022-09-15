@@ -10,7 +10,7 @@ import './components/lm-data/index.js'
 const dataModule = document.getElementById('dataModule')
 
 try {
-  dataModule.inputData([4, 8, 2, 4, 5, 8])
+  dataModule.inputData([4, 8, 2, 4, 4.5, 5, 8, 10.5, 11.23])
 
   const result = dataModule.getStatistics()
   console.log(result)
@@ -24,10 +24,8 @@ try {
   const boxPath = dataModule.getBoxPlotImgPath()
   console.log(boxPath)
 
-  const histogram = dataModule.getHistogramImgPath()
-  console.log(histogram)
+  const barchartPath = dataModule.getBarchartImgPath()
+  console.log(barchartPath)
 } catch (e) {
   console.error(e.message)
 }
-
-/** Här ska det alltså finnas minst fem publika metoder som kan anropas av användaren */

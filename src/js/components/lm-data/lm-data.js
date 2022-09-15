@@ -219,7 +219,7 @@ customElements.define('lm-data',
         standardDeviation: Math.round(this.standardDeviation * 100) / 100
       }
       this.#lmDiagram.inputSummaryData(Info)
-      this.#lmDiagram.setNrOfDataValues(this.originalData.length)
+      this.#lmDiagram.setSortedData(this.sortedData)
     }
 
     /**
@@ -271,13 +271,13 @@ customElements.define('lm-data',
     }
 
     /**
-     * Calls the method drawHistogram() and returns the image path.
+     * Calls the method drawBarchart() and returns the image path.
      *
-     * @returns {string} - the path to the histogram image.
+     * @returns {string} - the path to the bar chart image.
      */
-    getHistogramImgPath () {
-      this.#lmDiagram.drawHistogram()
-      return this.#lmDiagram.returnHistogramPath()
+    getBarchartImgPath () {
+      this.#lmDiagram.drawBarchart()
+      return this.#lmDiagram.returnBarchartPath()
     }
   }
 )

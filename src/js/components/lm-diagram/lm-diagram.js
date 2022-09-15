@@ -7,7 +7,7 @@
 
 const TABLE_URL = (new URL('./images/table.png', import.meta.url)).href
 const BOX_URL = (new URL('./images/box.png', import.meta.url)).href
-const HISTOGRAM_URL = (new URL('./images/histogram.png', import.meta.url)).href
+const BARCHART_URL = (new URL('./images/barchart.png', import.meta.url)).href
 const NR_OF_VALUETYPES = 7
 
 // Define template.
@@ -20,13 +20,12 @@ template.innerHTML = `
  </style>
 
  <div>
-    <canvas id="table" width=400 height=400 hidden></canvas>
+    <canvas id="table" width=400 height=400></canvas>
       <img id="imgTable">
-    </canvas>
     <canvas id="boxPlot" width=600 height=600></canvas>
       <img id="imgBox">
-    <canvas id="histogram" width=600 height=600></canvas>
-      <img id="imgHistogram">
+    <canvas id="barchart" width=600 height=600></canvas>
+      <img id="imgBarchart">
  </div>
  `
 
@@ -42,7 +41,7 @@ customElements.define('lm-diagram',
      */
      #table
      #boxPlot
-     #histogram
+     #barchart
 
     /**
      * The images.
@@ -51,7 +50,7 @@ customElements.define('lm-diagram',
      */
     #imgTable
     #imgBox
-    #imgHistogram
+    #imgBarchart
 
     /**
      * Creates an instance of the current type.
@@ -67,14 +66,14 @@ customElements.define('lm-diagram',
       // Get the elements in the shadow root.
       this.#table = this.shadowRoot.querySelector('#table')
       this.#boxPlot = this.shadowRoot.querySelector('#boxPlot')
-      this.#histogram = this.shadowRoot.querySelector('#histogram')
+      this.#barchart = this.shadowRoot.querySelector('#barchart')
 
       this.#imgTable = this.shadowRoot.querySelector('#imgTable')
       this.#imgBox = this.shadowRoot.querySelector('#imgBox')
-      this.#imgHistogram = this.shadowRoot.querySelector('#imgHistogram')
+      this.#imgBarchart = this.shadowRoot.querySelector('#imgBarchart')
 
       this.descriptiveStatistics = {}
-      this.nrOfValues = 0
+      this.sortedData = []
     }
 
     /**
@@ -95,10 +94,10 @@ customElements.define('lm-diagram',
     /**
      * Sets the local variable.
      *
-     * @param {number} nr - The number of values in the data set.
+     * @param {number[]} array - The sorted data set.
      */
-    setNrOfDataValues (nr) {
-      this.nrOfValues = nr
+    setSortedData (array) {
+      this.sortedData = array
     }
 
     /**
@@ -161,26 +160,71 @@ customElements.define('lm-diagram',
       const c = this.#boxPlot.getContext('2d')
       this.#imgBox.addEventListener('load', (event) => {
         c.drawImage(this.#imgBox, 0, 0)
-        c.rect(0, 0, 300, 220)
-        c.stroke()
 
         c.beginPath()
-        c.moveTo(100, 50)
-        c.lineTo(100, 500)
-        c.lineTo(550, 500)
+        c.moveTo(100, 20)
+        c.lineTo(100, 300)
+        c.lineTo(550, 300)
         c.stroke()
 
         c.font = 'bold 16px serif'
-        c.fillText('Histogram', 300, 20)
+        c.fillText('Box plot', 300, 20)
+        c.font = '14px serif'
+        c.fillText(`Min: ${this.descriptiveStatistics.minimum}`, 20, 280)
+        c.fillText(`Max: ${this.descriptiveStatistics.maximum}`, 20, 78)
 
-        for (let i = 0; i < this.nrOfValues; i++) {
-          const y = (10 * i) + 50
+        for (let i = 1; i < 11; i++) {
+          const y = 50 + (25 * i)
           c.beginPath()
-          c.moveTo(100, y)
-          c.lineTo(550, y)
+          c.moveTo(90, y)
+          c.lineTo(100, y)
           c.stroke()
         }
-        /* Fortsätt här! Tänk på att använda dig av frekvenser */
+
+        let quartileOne
+        let quartileThree
+        if (this.sortedData.length % 2 === 0) {
+          const firstHalf = this.sortedData.slice(0, this.sortedData.length / 2)
+          const secondHalf = this.sortedData.slice(this.sortedData.length / 2, this.sortedData.length)
+          if (firstHalf.length % 2 === 0) {
+            const middle = (firstHalf.length / 2)
+            let two = (this.sortedData[middle - 1] + this.sortedData[middle])
+            quartileOne = (two / 2)
+            two = (this.sortedData[middle * 3 - 1] + this.sortedData[middle * 3])
+            quartileThree = (two / 2)
+          } else {
+            quartileOne = firstHalf[Math.floor(firstHalf.length / 2)]
+            quartileThree = secondHalf[Math.floor(secondHalf.length / 2)]
+          }
+        } else if (this.sortedData.length % 2 === 1) {
+          const medianIndex = Math.floor(this.sortedData.length / 2)
+          const firstHalf = this.sortedData.slice(0, medianIndex)
+          const middle = (firstHalf.length / 2)
+          let two = (this.sortedData[middle - 1] + this.sortedData[middle])
+          quartileOne = (two / 2)
+          two = (this.sortedData[middle * 3 - 1] + this.sortedData[middle * 3])
+          quartileThree = (two / 2)
+        }
+
+        c.beginPath()
+        c.moveTo(315, 78)
+        c.lineTo(330, 78)
+        c.moveTo(315, 280)
+        c.lineTo(330, 280)
+        c.moveTo(300, (202 * 0.50) + 78)
+        c.lineTo(345, (202 * 0.50) + 78)
+        c.moveTo(322, 78)
+        c.lineTo(322, (202 * 0.25 + 78))
+        c.moveTo(322, (202 * 0.75 + 78))
+        c.lineTo(322, 280)
+        c.stroke()
+
+        c.rect(300, (202 * 0.25 + 78), 45, (202 * 0.50))
+        c.stroke()
+
+        c.fillText(`Q1: ${quartileOne}`, 20, (202 * 0.75 + 78))
+        c.fillText(`Q3: ${quartileThree}`, 20, (202 * 0.25 + 78))
+        c.fillText(`Median: ${this.descriptiveStatistics.median}`, 20, (202 * 0.50 + 78))
 
         event.stopPropagation()
         event.preventDefault()
@@ -198,46 +242,73 @@ customElements.define('lm-diagram',
     }
 
     /**
-     * Draws the histogram.
+     * Draws the bar chart.
      *
      */
-    drawHistogram () {
-      const c = this.#histogram.getContext('2d')
+    drawBarchart () {
+      const c = this.#barchart.getContext('2d')
       this.#imgTable.addEventListener('load', (event) => {
-        c.drawImage(this.#imgHistogram, 0, 0)
+        c.drawImage(this.#imgBarchart, 0, 0)
 
         c.beginPath()
-        c.moveTo(100, 50)
-        c.lineTo(100, 500)
-        c.lineTo(550, 500)
+        c.moveTo(100, 20)
+        c.lineTo(100, 300)
+        c.lineTo(550, 300)
         c.stroke()
 
         c.font = 'bold 16px serif'
-        c.fillText('Histogram', 300, 20)
+        c.fillText('Bar chart', 300, 20)
 
-        for (let i = 0; i < this.nrOfValues; i++) {
-          const y = (10 * i) + 50
+        for (let i = 0; i < 11; i++) {
+          const y = 50 + (25 * i)
           c.beginPath()
-          c.moveTo(100, y)
+          c.moveTo(90, y)
           c.lineTo(550, y)
+          c.stroke()
+
+          c.font = '14px serif'
+          c.fillText(`${i * 10} %`, 50, (300 - i * 25))
+        }
+
+        const min = this.descriptiveStatistics.minimum
+        const distance = Math.ceil(this.descriptiveStatistics.range / 4)
+        c.font = '14px serif'
+        c.fillText(`[${min} - ${min + distance}]`, 125, 320)
+        c.fillText(`(${min + distance} - ${min + distance * 2}]`, 245, 320)
+        c.fillText(`(${min + distance * 2} - ${min + distance * 3}]`, 362, 320)
+        c.fillText(`(${min + distance * 3} - ${min + distance * 4}]`, 482, 320)
+
+        for (let i = 1; i < 5; i++) {
+          let count = 0
+          for (const number of this.sortedData) {
+            if (number <= (min + distance * i) && number > (min + distance * (i - 1)) && i > 1) {
+              count++
+            } else if (number <= (min + distance * i) && number >= (min + distance * (i - 1)) && i === 1) {
+              count++
+            }
+          }
+          const percent = count / this.sortedData.length
+          c.rect((i * 100 + 20 * i), 300, 50, (-(250 * percent)))
+          c.fill()
+          c.fillStyle = 'beige'
           c.stroke()
         }
 
-        /* Fortsätt här! Tänk på att använda dig av frekvenser */
+        c.save()
 
         event.stopPropagation()
         event.preventDefault()
       })
-      this.#imgHistogram.src = `${HISTOGRAM_URL}`
+      this.#imgBarchart.src = `${BARCHART_URL}`
     }
 
     /**
-     * Returns the image path to the histogram.
+     * Returns the image path to the bar chart.
      *
-     * @returns {string} - The path to the histogram image.
+     * @returns {string} - The path to the bar chart image.
      */
-    returnHistogramPath () {
-      return HISTOGRAM_URL
+    returnBarchartPath () {
+      return BARCHART_URL
     }
   }
 )
