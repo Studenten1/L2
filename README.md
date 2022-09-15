@@ -6,6 +6,14 @@ The assignment contains a web component module that handles data input. The appl
 
 Use the "npm i" command. If debug is needed, write "npm run dev" and view the output of console.log() in the console. The main script file of the module can be found in  "./src/js/index.js". 
 
+# Language
+
+The language is english. 
+
+# Dependencies
+
+This module doesn't have any external libraries or dependencies. 
+
 # Public methods
 
 ## inputData()

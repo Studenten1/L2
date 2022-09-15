@@ -25,7 +25,7 @@ customElements.define('lm-data',
   /**
    * Represents the data.
    */
-  class extends HTMLElement {
+  class Data extends HTMLElement {
     /**
      * The lm-diagram element.
      *
