@@ -70,21 +70,25 @@ customElements.define('lm-data',
      * @param {number[]} originalData - The input array of data.
      */
     inputData (originalData) {
-      if (!Array.isArray(originalData)) {
-        throw new TypeError('The passed argument is not an array.')
-      } else if (originalData.length === 0) {
-        throw new Error('The passed array contains no elements.')
-      }
-      for (let i = 0; i < originalData.length; i++) {
-        if (Number.isNaN(originalData[i])) {
-          throw new TypeError('The passed array may only contain valid numbers.')
-        } else if (!(typeof (originalData[i]) === 'number')) {
-          throw new TypeError('The passed array may only contain valid numbers.')
+      try {
+        if (!Array.isArray(originalData)) {
+          throw new TypeError('The passed argument is not an array.')
+        } else if (originalData.length === 0) {
+          throw new Error('The passed array contains no elements.')
         }
+        for (let i = 0; i < originalData.length; i++) {
+          if (Number.isNaN(originalData[i])) {
+            throw new TypeError('The passed array may only contain valid numbers.')
+          } else if (!(typeof (originalData[i]) === 'number')) {
+            throw new TypeError('The passed array may only contain valid numbers.')
+          }
+        }
+        this.originalData = originalData
+        this.#sortData()
+        this.#startSummary()
+      } catch (e) {
+        console.error(e.message)
       }
-      this.originalData = originalData
-      this.#sortData()
-      this.#startSummary()
     }
 
     /**
