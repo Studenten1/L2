@@ -1,5 +1,5 @@
 /**
- * My data web component module.
+ * My statistics web component module.
  *
  * @author Linda Meyer <lm222sp@student.lnu.se>
  * @version 1.1.0
@@ -23,9 +23,9 @@ template.innerHTML = `
 
 customElements.define('lm-data',
   /**
-   * Represents the data.
+   * Represents the statistics.
    */
-  class Data extends HTMLElement {
+  class Statistics extends HTMLElement {
     /**
      * The lm-diagram element.
      *

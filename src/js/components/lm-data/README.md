@@ -1,6 +1,6 @@
 # &lt;lm-data&gt;
 
-A web component that represents a data module.
+A web component that represents a statistics module.
 
 ## Attributes
 

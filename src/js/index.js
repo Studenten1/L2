@@ -7,28 +7,28 @@
 
 import './components/lm-data/index.js'
 
-const Data = document.getElementById('dataModule')
+const Statistics = document.getElementById('statistics')
 
 try {
-  Data.inputData([4, 8, 2, 4, 4.5, 5, 8, 10.5, 11.23])
+  Statistics.inputData([4, 8, 2, 4, 4.5, 5, 8, 10.5, 11.23])
 
-  const result = Data.getStatistics()
+  const result = Statistics.getStatistics()
   console.log(result)
 
-  const sortedValues = Data.getSortedData()
+  const sortedValues = Statistics.getSortedData()
   console.log(sortedValues)
 
-  const tablePath = Data.getTableImgPath()
+  const tablePath = Statistics.getTableImgPath()
   tablePath.then((value) => {
     console.log(value)
   })
 
-  const boxPath = Data.getBoxPlotImgPath()
+  const boxPath = Statistics.getBoxPlotImgPath()
   boxPath.then((value) => {
     console.log(value)
   })
 
-  const barchartPath = Data.getBarChartImgPath()
+  const barchartPath = Statistics.getBarChartImgPath()
   barchartPath.then((value) => {
     console.log(value)
   })
