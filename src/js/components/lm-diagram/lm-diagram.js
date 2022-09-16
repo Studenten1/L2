@@ -27,7 +27,7 @@ customElements.define('lm-diagram',
   /**
    * Represents the diagram.
    */
-  class extends HTMLElement {
+  class Diagram extends HTMLElement {
     /**
      * The canvas elements.
      *
