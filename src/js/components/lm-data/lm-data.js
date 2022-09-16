@@ -172,6 +172,8 @@ customElements.define('lm-data',
      */
     #setModeValue () {
       const frequencyTable = {}
+      let maxFrequency = []
+      let modeValues = []
 
       for (const number of this.sortedData) {
         if (frequencyTable[number]) {
@@ -181,15 +183,15 @@ customElements.define('lm-data',
         }
       }
 
-      const maxFrequency = Object.values(frequencyTable)
+      maxFrequency = Object.values(frequencyTable)
         .sort((a, b) => a - b)
         .pop()
 
-      const modeStringArray = Object.keys(frequencyTable)
+      modeValues = Object.keys(frequencyTable)
         .filter(number => frequencyTable[number] === maxFrequency)
 
-      for (let i = 0; i < modeStringArray.length; i++) {
-        this.modeValue[i] = Number.parseFloat(modeStringArray[i])
+      for (let i = 0; i < modeValues.length; i++) {
+        this.modeValue[i] = Number.parseFloat(modeValues[i])
       }
       this.modeValue.sort((a, b) => a - b)
     }
