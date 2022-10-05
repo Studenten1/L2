@@ -1,7 +1,7 @@
 {
-  "name": "assignment-l1",
+  "name": "statistics-app",
   "version": "1.1.0",
-  "description": "1DV610 - Assignment L1",
+  "description": "1DV610 - Assignment L2",
   "type": "module",
   "browser": "src/js/index.js",
   "scripts": {
