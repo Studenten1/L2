@@ -1,4 +1,4 @@
-# &lt;lm-data&gt;
+# &lt;statistics&gt;
 
 A web component that represents a statistics module.
 
@@ -13,5 +13,5 @@ This web component doesn't dispatch any events.
 ## Example
 
 ```html
-<lm-data></lm-data>
+<statistics></statistics>
 ```

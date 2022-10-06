@@ -5,7 +5,7 @@
  * @version 1.1.0
  */
 
-import '../lm-data'
+import '../statistics'
 
 // Define template.
 const template = document.createElement('template')
@@ -14,7 +14,7 @@ template.innerHTML = `
  </style>
 
  <div>
-    <lm-data></lm-data>
+    <statistics></statistics>
     <img id="chart">
  </div>
  `
@@ -32,11 +32,11 @@ customElements.define('test-app',
      #chart
 
      /**
-      * The lm-data element.
+      * The statistics element.
       *
       * @type {HTMLElement}
       */
-     #data
+     #statistics
 
      /**
       * Creates an instance of the current type.
@@ -51,7 +51,7 @@ customElements.define('test-app',
 
        // Get the elements in the shadow root.
        this.#chart = this.shadowRoot.querySelector('#chart')
-       this.#data = this.shadowRoot.querySelector('lm-data')
+       this.#statistics = this.shadowRoot.querySelector('statistics')
      }
 
      /**
@@ -66,7 +66,7 @@ customElements.define('test-app',
       *
       */
      testErrorMessage () {
-       this.#data.inputData([])
+       this.#statistics.inputData([])
      }
 
      /**
@@ -74,8 +74,8 @@ customElements.define('test-app',
       *
       */
      testStatisticsSummary () {
-       this.#data.inputData([1, 10, 6, 2, 4, 10])
-       const statisticsObject = this.#data.getStatistics()
+       this.#statistics.inputData([1, 10, 6, 2, 4, 10])
+       const statisticsObject = this.#statistics.getStatistics()
        console.log(statisticsObject)
      }
 
@@ -84,8 +84,8 @@ customElements.define('test-app',
       *
       */
      testSortData () {
-       this.#data.inputData([-10, 1, 6, 0])
-       const sortedCopy = this.#data.getSortedData()
+       this.#statistics.inputData([-10, 1, 6, 0])
+       const sortedCopy = this.#statistics.getSortedData()
        console.log(sortedCopy)
      }
 
@@ -94,8 +94,8 @@ customElements.define('test-app',
       *
       */
      testPath () {
-       this.#data.inputData([4, 1, 1, 6, 10])
-       const promise = this.#data.getTableImgPath()
+       this.#statistics.inputData([4, 1, 1, 6, 10])
+       const promise = this.#statistics.getTableImgPath()
        promise.then((value) => {
          console.log(value)
        })
@@ -106,8 +106,8 @@ customElements.define('test-app',
       *
       */
      testShowTable () {
-       this.#data.inputData([4, 1, 1, 6, 10])
-       const promise = this.#data.getTableImgPath()
+       this.#statistics.inputData([4, 1, 1, 6, 10])
+       const promise = this.#statistics.getTableImgPath()
        promise.then((value) => {
          this.#chart.src = value
        })
@@ -118,8 +118,8 @@ customElements.define('test-app',
       *
       */
      testShowBoxplot () {
-       this.#data.inputData([4, 1, 1, 6, 10])
-       const promise = this.#data.getBoxPlotImgPath()
+       this.#statistics.inputData([4, 1, 1, 6, 10])
+       const promise = this.#statistics.getBoxPlotImgPath()
        promise.then((value) => {
          this.#chart.src = value
        })
@@ -130,8 +130,8 @@ customElements.define('test-app',
       *
       */
      testShowBarchart () {
-       this.#data.inputData([4, 1, 1, 6, 10])
-       const promise = this.#data.getBarChartImgPath()
+       this.#statistics.inputData([4, 1, 1, 6, 10])
+       const promise = this.#statistics.getBarChartImgPath()
        promise.then((value) => {
          this.#chart.src = value
        })

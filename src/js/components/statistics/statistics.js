@@ -21,7 +21,7 @@ template.innerHTML = `
  </div>
  `
 
-customElements.define('lm-data',
+customElements.define('statistics',
   /**
    * Represents the statistics.
    */
