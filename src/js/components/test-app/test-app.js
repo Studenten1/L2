@@ -5,7 +5,7 @@
  * @version 1.1.0
  */
 
-import '../statistics'
+import '../descriptive-statistics'
 
 // Define template.
 const template = document.createElement('template')
@@ -14,7 +14,7 @@ template.innerHTML = `
  </style>
 
  <div>
-    <statistics></statistics>
+    <descriptive-statistics></descriptive-statistics>
     <img id="chart">
  </div>
  `
@@ -51,7 +51,7 @@ customElements.define('test-app',
 
        // Get the elements in the shadow root.
        this.#chart = this.shadowRoot.querySelector('#chart')
-       this.#statistics = this.shadowRoot.querySelector('statistics')
+       this.#statistics = this.shadowRoot.querySelector('descriptive-statistics')
      }
 
      /**

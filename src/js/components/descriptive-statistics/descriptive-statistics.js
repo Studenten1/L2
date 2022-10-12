@@ -21,7 +21,7 @@ template.innerHTML = `
  </div>
  `
 
-customElements.define('statistics',
+customElements.define('descriptive-statistics',
   /**
    * Represents the statistics.
    */

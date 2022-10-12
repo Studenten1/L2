@@ -1,6 +1,6 @@
-# &lt;statistics&gt;
+# &lt;descriptive-statistics&gt;
 
-A web component that represents a statistics module.
+A web component that represents a descriptive-statistics module.
 
 ## Attributes
 
@@ -13,5 +13,5 @@ This web component doesn't dispatch any events.
 ## Example
 
 ```html
-<statistics></statistics>
+<descriptive-statistics></descriptive-statistics>
 ```
