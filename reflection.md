@@ -1,4 +1,99 @@
 # Kapitel 2
+Kapitlet fokuserar på namngivning av metoder och variabler. Jag har verkligen försökt att tänka på att skapa meningsfull namngivning. Namnet ska tillföra info till andra programmerare och på så sätt göra det enkelt att sätta sig in i koden. Jag har också tänkt mycket på att namnen inte är missvisande, utan verkligen reflekterar vad metoden gör. Därför har jag brutit ut funktionaliteten toDataURL() från draw-metoderna för att inte skapa sidoeffekter. ![kapitel2](./src/images/kapitel2.PNG).
+
+
+# Kapitel 3
+Ett viktigt budskap i det här kapitlet är att en funktion ska fokusera på att göra en sak. Jag utgår ofta från den här regeln och det har påverkat min kod till det bättre. Om funktionen gör mer än en sak så brukar jag dela upp den i fler funktioner. På så sätt kan jag se till att varje metod får en uppgift att utföra. I funktionen inputData() fanns mer än en uppgift och därför har jag nu lagt till funktionen checkInput(). ![kapitel3](./src/images/kapitel3.PNG).
+
+
+
+# Kapitel 4
+Efter att ha läst det här kapitlet har jag försökt att ta bort så många onödiga kommentarer som möjligt. Istället har jag ändrat i koden för att tydliggöra vad jag menar. Som författaren skriver finns det slutgiltiga svaret om vad koden gör i själva koden. Det är därför bättre att förbättra koden än att täcka upp för sämre kod med kommentarer. Jag valde dock att behålla JSDOC-kommentarerna just eftersom jag skriver i JavaScript. Jag tror att de kan tillföra viktig info. Jag försökte också vara noga med att hålla dem uppdaterade. ![kapitel4](./src/images/kapitel4.PNG).
+
+
+
+# Kapitel 5
+
+
+
+# Kapitel 6
+
+
+
+# Kapitel 7
+
+
+
+# Kapitel 8
+
+
+
+
+# Kapitel 9
+
+
+
+# Kapitel 10
+
+
+
+
+# Kapitel 11
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Kapitel 2
 
 | Name and explanation                                                            | Reflection and rules from Clean Code |
 | ------------------------------------------------------------------------------- | ------------------------------------ |

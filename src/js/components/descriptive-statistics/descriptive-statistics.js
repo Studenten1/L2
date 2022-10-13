@@ -70,6 +70,18 @@ customElements.define('descriptive-statistics',
      * @param {number[]} originalData - The input array of data.
      */
     inputData (originalData) {
+      this.#checkInput(originalData)
+      this.originalData = originalData
+      this.#sortData()
+      this.#startSummary()
+    }
+
+    /**
+     * Checks the input.
+     *
+     *@param {number[]} originalData - The submitted data.
+     */
+    #checkInput (originalData) {
       try {
         if (!Array.isArray(originalData)) {
           throw new TypeError('The passed argument is not an array.')
@@ -83,9 +95,6 @@ customElements.define('descriptive-statistics',
             throw new TypeError('The passed array may only contain valid numbers.')
           }
         }
-        this.originalData = originalData
-        this.#sortData()
-        this.#startSummary()
       } catch (e) {
         console.error(e.message)
       }
@@ -263,7 +272,8 @@ customElements.define('descriptive-statistics',
      */
     async getTableImgPath () {
       let url
-      await this.#lmDiagram.drawTable().then((value) => {
+      this.#lmDiagram.drawTable()
+      await this.#lmDiagram.getTableUrl().then((value) => {
         url = value
       })
       return url
@@ -276,7 +286,8 @@ customElements.define('descriptive-statistics',
      */
     async getBoxPlotImgPath () {
       let url
-      await this.#lmDiagram.drawBox().then((value) => {
+      this.#lmDiagram.drawBox()
+      await this.#lmDiagram.getBoxPlotUrl().then((value) => {
         url = value
       })
       return url
@@ -289,7 +300,8 @@ customElements.define('descriptive-statistics',
      */
     async getBarChartImgPath () {
       let url
-      await this.#lmDiagram.drawBarchart().then((value) => {
+      this.#lmDiagram.drawBarchart()
+      await this.#lmDiagram.getBarChartUrl().then((value) => {
         url = value
       })
       return url

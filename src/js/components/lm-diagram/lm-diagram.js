@@ -82,11 +82,10 @@ customElements.define('lm-diagram',
      }
 
      /**
-      * Draws the table and returns the URL to the image.
+      * Draws the table.
       *
-      * @returns {Promise} - The path to the table image.
       */
-     async drawTable () {
+     drawTable () {
        const c = this.#table.getContext('2d')
        c.rect(0, 0, 300, 220)
        c.stroke()
@@ -116,16 +115,23 @@ customElements.define('lm-diagram',
          c.lineTo(300, y)
          c.stroke()
        }
+     }
+
+     /**
+      * Returns the URL to the table image.
+      *
+      * @returns {Promise} - The path to the table image.
+      */
+     async getTableUrl () {
        const url = this.#table.toDataURL()
        return url
      }
 
      /**
-      * Draws the boxplot and returns the URL to the image.
+      * Draws the boxplot.
       *
-      * @returns {Promise} - The path to the boxplot image.
       */
-     async drawBox () {
+     drawBox () {
        const c = this.#boxPlot.getContext('2d')
 
        c.beginPath()
@@ -192,17 +198,23 @@ customElements.define('lm-diagram',
        c.fillText(`Q1: ${quartileOne}`, 20, (202 * 0.75 + 78))
        c.fillText(`Q3: ${quartileThree}`, 20, (202 * 0.25 + 78))
        c.fillText(`Median: ${this.descriptiveStatistics.median}`, 20, (202 * 0.50 + 78))
+     }
 
+     /**
+      * Returns the URL to the boxplot image.
+      *
+      * @returns {Promise} - The path to the boxplot image.
+      */
+     async getBoxPlotUrl () {
        const url = this.#boxPlot.toDataURL()
        return url
      }
 
      /**
-      * Draws the bar chart and returns the URL to the image.
+      * Draws the bar chart.
       *
-      *@returns {Promise} - The path to the bar chart image.
       */
-     async drawBarchart () {
+     drawBarchart () {
        const c = this.#barchart.getContext('2d')
 
        c.beginPath()
@@ -248,6 +260,14 @@ customElements.define('lm-diagram',
          c.fillStyle = 'beige'
          c.stroke()
        }
+     }
+
+     /**
+      * Returns the URL to the bar chart image.
+      *
+      * @returns {Promise} - The path to the bar chart image.
+      */
+     async getBarChartUrl () {
        const url = this.#barchart.toDataURL()
        return url
      }
