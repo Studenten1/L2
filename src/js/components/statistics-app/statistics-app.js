@@ -17,6 +17,36 @@ template.innerHTML = `
     margin: 0 auto;
   }
 
+  #startMenu {
+    border: solid grey 2px;
+    width: 50vw;
+    margin: 0 auto;
+  }
+
+  #startMenu #submit {
+    margin-left: 85%;
+  }
+
+  #form input {
+    margin-left: 40%;
+  }
+
+  #window {
+    border: solid grey 2px;
+    width: 50vw;
+    margin: 0 auto;
+  }
+
+  p {
+    font-size: 1.5em;
+    color: black;
+  }
+
+  label {
+    font-size: 1.2em;
+    margin-left: 20px;
+  }
+
   input {
     margin: 0 auto;
     width: 80%;
@@ -46,22 +76,30 @@ template.innerHTML = `
     font-weight: 400;
   }
 
+  #message {
+    text-align: center;
+    color: red;
+    width: 100%;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
   button {
     text-align: center;
-    color: white;
     font-family:Verdana, Geneva, Tahoma, sans-serif;
     font-weight: 600;
     font-size: 12px;
-    background-color: cadetblue;
     border-color: white;
     border-radius: 10%;
     height: 40px;
     width: 15%;
+    background-color: aliceblue;
+    color: cadetblue;
   }
 
   button:hover {
-    background-color: aliceblue;
-    color: cadetblue;
+    background-color: cadetblue;
+    color: white;
   }
 </style>
 
@@ -70,6 +108,7 @@ template.innerHTML = `
       <h1>Welcome to the statistics app!</h1>
       <h3>Start by submitting the data which will be processed into descriptive statistics. <br><br> Please note that the data should be submitted like this:\n 1, 2.45, 0.35, 110, 39 </h3>
       <h2>Submit the data: </h2>
+      <h2 id="message"></h2>
       <input><button>Submit</button>
     </div>
     <div id="startMenu" hidden>
@@ -165,9 +204,29 @@ customElements.define('statistics-app',
       */
      connectedCallback () {
        this.#button.addEventListener('click', event => {
-         this.#statistics.inputData([this.#input.value])
-         this.#wrapper.hidden = true
-         this.#startMenu.hidden = false
+         const arrayOfNumbers = []
+         let oneNumberAsString = ''
+         for (let i = 0; i < this.#input.value.length; i++) {
+           if (this.#input.value[i] === ' ') {
+             oneNumberAsString = ''
+           } else if (this.#input.value[i] === ',') {
+             arrayOfNumbers.push(Number(oneNumberAsString))
+             oneNumberAsString = ''
+           } else if (i !== (this.#input.value.length - 1)) {
+             oneNumberAsString += this.#input.value[i]
+           } else {
+             oneNumberAsString += this.#input.value[i]
+             arrayOfNumbers.push(Number(oneNumberAsString))
+           }
+         }
+         console.log(arrayOfNumbers)
+         try {
+           this.#statistics.inputData(arrayOfNumbers)
+           this.#wrapper.hidden = true
+           this.#startMenu.hidden = false
+         } catch (error) {
+           this.#wrapper.children[3].textContent = 'Something was wrong with the submitted data. Try again and follow the instructions above.'
+         }
          event.preventDefault()
          event.stopPropagation()
        })
@@ -175,19 +234,19 @@ customElements.define('statistics-app',
        this.#submit.addEventListener('click', event => {
          this.#startMenu.hidden = true
          this.#window.hidden = false
-         if (this.#form.elements[1].checked === true) {
+         if (this.#form.elements[0].checked === true) {
            const arrayOfSortedData = this.#statistics.getSortedData()
            this.#window.firstElementChild.textContent = arrayOfSortedData
-         } else if (this.#form.elements[2].checked === true) {
+         } else if (this.#form.elements[1].checked === true) {
            const descriptiveStatistics = this.#statistics.getStatistics()
            this.#window.firstElementChild.textContent = descriptiveStatistics
-         } else if (this.#form.elements[3].checked === true) {
+         } else if (this.#form.elements[2].checked === true) {
            const tableUrl = this.#statistics.getTableImgPath()
            this.#window.firstElementChild.textContent = 'This is a table of the descriptive statistics'
            tableUrl.then((value) => {
              this.#chart.src = value
            })
-         } else if (this.#form.elements[4].checked === true) {
+         } else if (this.#form.elements[3].checked === true) {
            const boxPlotUrl = this.#statistics.getBoxPlotImgPath()
            this.#window.firstElementChild.textContent = 'This is a box-plot of the descriptive statistics'
            boxPlotUrl.then((value) => {

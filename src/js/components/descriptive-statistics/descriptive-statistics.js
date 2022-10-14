@@ -47,15 +47,15 @@ customElements.define('descriptive-statistics',
       // Get the elements in the shadow root.
       this.#lmDiagram = this.shadowRoot.querySelector('lm-diagram')
 
-      this.#originalData = []
-      this.#sortedData = []
-      this.#average = 0
-      this.#maximum = 0
-      this.#minimum = 0
-      this.#median = 0
-      this.#range = 0
-      this.#standardDeviation = 0
-      this.#modeValue = []
+      this.originalData = []
+      this.sortedData = []
+      this.average = 0
+      this.maximum = 0
+      this.minimum = 0
+      this.median = 0
+      this.range = 0
+      this.standardDeviation = 0
+      this.modeValue = []
     }
 
     /**
@@ -71,7 +71,7 @@ customElements.define('descriptive-statistics',
      */
     inputData (originalData) {
       this.#checkInput(originalData)
-      this.#originalData = originalData
+      this.originalData = originalData
       this.#sortData()
       this.#startSummary()
     }
@@ -82,21 +82,17 @@ customElements.define('descriptive-statistics',
      *@param {number[]} originalData - The submitted data.
      */
     #checkInput (originalData) {
-      try {
-        if (!Array.isArray(originalData)) {
-          throw new TypeError('The passed argument is not an array.')
-        } else if (originalData.length === 0) {
-          throw new Error('The passed array contains no elements.')
+      if (!Array.isArray(originalData)) {
+        throw new TypeError('The passed argument is not an array.')
+      } else if (originalData.length === 0) {
+        throw new Error('The passed array contains no elements.')
+      }
+      for (let i = 0; i < originalData.length; i++) {
+        if (Number.isNaN(originalData[i])) {
+          throw new TypeError('The passed array may only contain valid numbers.')
+        } else if (!(typeof (originalData[i]) === 'number')) {
+          throw new TypeError('The passed array may only contain valid numbers.')
         }
-        for (let i = 0; i < originalData.length; i++) {
-          if (Number.isNaN(originalData[i])) {
-            throw new TypeError('The passed array may only contain valid numbers.')
-          } else if (!(typeof (originalData[i]) === 'number')) {
-            throw new TypeError('The passed array may only contain valid numbers.')
-          }
-        }
-      } catch (e) {
-        console.error(e.message)
       }
     }
 
@@ -120,9 +116,9 @@ customElements.define('descriptive-statistics',
      *
      */
     #sortData () {
-      const sortedCopy = this.#originalData.slice()
+      const sortedCopy = this.originalData.slice()
       sortedCopy.sort((a, b) => a - b)
-      this.#sortedData = sortedCopy
+      this.sortedData = sortedCopy
     }
 
     /**
@@ -130,9 +126,9 @@ customElements.define('descriptive-statistics',
      *
      */
     #setAverage () {
-      const total = this.#sortedData.reduce((x, y) => x + y)
-      const average = (total / this.#sortedData.length)
-      this.#average = average
+      const total = this.sortedData.reduce((x, y) => x + y)
+      const average = (total / this.sortedData.length)
+      this.average = average
     }
 
     /**
@@ -140,8 +136,8 @@ customElements.define('descriptive-statistics',
      *
      */
     #setMaximum () {
-      const max = this.#sortedData[(this.#sortedData.length - 1)]
-      this.#maximum = max
+      const max = this.sortedData[(this.sortedData.length - 1)]
+      this.maximum = max
     }
 
     /**
@@ -149,8 +145,8 @@ customElements.define('descriptive-statistics',
      *
      */
     #setMinimum () {
-      const min = this.#sortedData[0]
-      this.#minimum = min
+      const min = this.sortedData[0]
+      this.minimum = min
     }
 
     /**
@@ -158,7 +154,7 @@ customElements.define('descriptive-statistics',
      *
      */
     #setRange () {
-      this.#range = (this.#sortedData[(this.#sortedData.length - 1)] - this.#sortedData[0])
+      this.range = (this.sortedData[(this.sortedData.length - 1)] - this.sortedData[0])
     }
 
     /**
@@ -167,12 +163,12 @@ customElements.define('descriptive-statistics',
      */
     #setStandardDev () {
       const output = []
-      for (let i = 0; i < this.#sortedData.length; i++) {
-        const first = ((this.#sortedData[i] - this.#average) ** 2)
+      for (let i = 0; i < this.sortedData.length; i++) {
+        const first = ((this.sortedData[i] - this.average) ** 2)
         output[i] = first
       }
-      const standard = ((output.reduce((x, y) => x + y)) / this.#sortedData.length) ** 0.5
-      this.#standardDeviation = standard
+      const standard = ((output.reduce((x, y) => x + y)) / this.sortedData.length) ** 0.5
+      this.standardDeviation = standard
     }
 
     /**
@@ -184,7 +180,7 @@ customElements.define('descriptive-statistics',
       let maxFrequency = []
       let modeValues = []
 
-      for (const number of this.#sortedData) {
+      for (const number of this.sortedData) {
         if (frequencyTable[number]) {
           frequencyTable[number]++
         } else {
@@ -200,9 +196,9 @@ customElements.define('descriptive-statistics',
         .filter(number => frequencyTable[number] === maxFrequency)
 
       for (let i = 0; i < modeValues.length; i++) {
-        this.#modeValue[i] = Number.parseFloat(modeValues[i])
+        this.modeValue[i] = Number.parseFloat(modeValues[i])
       }
-      this.#modeValue.sort((a, b) => a - b)
+      this.modeValue.sort((a, b) => a - b)
     }
 
     /**
@@ -210,12 +206,12 @@ customElements.define('descriptive-statistics',
      *
      */
     #setMedian () {
-      if (this.#sortedData.length % 2 === 0) {
-        const middle = (this.#sortedData.length / 2)
-        const two = (this.#sortedData[middle - 1] + this.#sortedData[middle])
-        this.#median = (two / 2)
+      if (this.sortedData.length % 2 === 0) {
+        const middle = (this.sortedData.length / 2)
+        const two = (this.sortedData[middle - 1] + this.sortedData[middle])
+        this.median = (two / 2)
       } else if (this.sortedData.length % 2 === 1) {
-        this.#median = this.#sortedData[Math.floor(this.#sortedData.length / 2)]
+        this.median = this.sortedData[Math.floor(this.sortedData.length / 2)]
       }
     }
 
@@ -225,16 +221,16 @@ customElements.define('descriptive-statistics',
      */
     #sendInfo () {
       const Info = {
-        average: Math.round(this.#average * 100) / 100,
-        maximum: Math.round(this.#maximum * 100) / 100,
-        median: Math.round(this.#median * 100) / 100,
-        minimum: Math.round(this.#minimum * 100) / 100,
-        mode: this.#modeValue,
-        range: Math.round(this.#range * 100) / 100,
-        standardDeviation: Math.round(this.#standardDeviation * 100) / 100
+        average: Math.round(this.average * 100) / 100,
+        maximum: Math.round(this.maximum * 100) / 100,
+        median: Math.round(this.median * 100) / 100,
+        minimum: Math.round(this.minimum * 100) / 100,
+        mode: this.modeValue,
+        range: Math.round(this.range * 100) / 100,
+        standardDeviation: Math.round(this.standardDeviation * 100) / 100
       }
       this.#lmDiagram.inputSummaryData(Info)
-      this.#lmDiagram.setSortedData(this.#sortedData)
+      this.#lmDiagram.setSortedData(this.sortedData)
     }
 
     /**
@@ -245,13 +241,13 @@ customElements.define('descriptive-statistics',
      */
     getStatistics () {
       const Statistics = {
-        average: this.#average,
-        maximum: this.#maximum,
-        median: this.#median,
-        minimum: this.#minimum,
-        mode: this.#modeValue,
-        range: this.#range,
-        standardDeviation: this.#standardDeviation
+        average: this.average,
+        maximum: this.maximum,
+        median: this.median,
+        minimum: this.minimum,
+        mode: this.modeValue,
+        range: this.range,
+        standardDeviation: this.standardDeviation
       }
       return Statistics
     }
@@ -262,7 +258,7 @@ customElements.define('descriptive-statistics',
      * @returns {number[]} - the sorted data array of numbers.
      */
     getSortedData () {
-      return this.#sortedData
+      return this.sortedData
     }
 
     /**
