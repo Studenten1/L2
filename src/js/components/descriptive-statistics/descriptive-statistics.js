@@ -56,6 +56,8 @@ customElements.define('descriptive-statistics',
       this.range = 0
       this.standardDeviation = 0
       this.modeValue = []
+      this.quartileOne = 0
+      this.quartileThree = 0
     }
 
     /**
@@ -108,6 +110,7 @@ customElements.define('descriptive-statistics',
       this.#setStandardDev()
       this.#setModeValue()
       this.#setMedian()
+      this.#setQuartiles()
       this.#sendInfo()
     }
 
@@ -216,6 +219,35 @@ customElements.define('descriptive-statistics',
     }
 
     /**
+     * Sets the quartiles of the data.
+     *
+     */
+    #setQuartiles () {
+      if (this.sortedData.length % 2 === 0) {
+        const firstHalf = this.sortedData.slice(0, this.sortedData.length / 2)
+        const secondHalf = this.sortedData.slice(this.sortedData.length / 2, this.sortedData.length)
+        if (firstHalf.length % 2 === 0) {
+          const middle = (firstHalf.length / 2)
+          let two = (this.sortedData[middle - 1] + this.sortedData[middle])
+          this.quartileOne = (two / 2)
+          two = (this.sortedData[middle * 3 - 1] + this.sortedData[middle * 3])
+          this.quartileThree = (two / 2)
+        } else {
+          this.quartileOne = firstHalf[Math.floor(firstHalf.length / 2)]
+          this.quartileThree = secondHalf[Math.floor(secondHalf.length / 2)]
+        }
+      } else if (this.sortedData.length % 2 === 1) {
+        const medianIndex = Math.floor(this.sortedData.length / 2)
+        const firstHalf = this.sortedData.slice(0, medianIndex)
+        const middle = (firstHalf.length / 2)
+        let two = (this.sortedData[middle - 1] + this.sortedData[middle])
+        this.quartileOne = (two / 2)
+        two = (this.sortedData[middle * 3 - 1] + this.sortedData[middle * 3])
+        this.quartileThree = (two / 2)
+      }
+    }
+
+    /**
      * Sends the modified statistics to the lm-diagram component.
      *
      */
@@ -227,7 +259,9 @@ customElements.define('descriptive-statistics',
         minimum: Math.round(this.minimum * 100) / 100,
         mode: this.modeValue,
         range: Math.round(this.range * 100) / 100,
-        standardDeviation: Math.round(this.standardDeviation * 100) / 100
+        standardDeviation: Math.round(this.standardDeviation * 100) / 100,
+        quartileOne: Math.round(this.quartileOne * 100) / 100,
+        quartileThree: Math.round(this.quartileThree * 100) / 100
       }
       this.#lmDiagram.inputSummaryData(Info)
       this.#lmDiagram.setSortedData(this.sortedData)

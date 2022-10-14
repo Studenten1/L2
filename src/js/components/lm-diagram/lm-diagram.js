@@ -154,31 +154,6 @@ customElements.define('lm-diagram',
          c.stroke()
        }
 
-       let quartileOne
-       let quartileThree
-       if (this.sortedData.length % 2 === 0) {
-         const firstHalf = this.sortedData.slice(0, this.sortedData.length / 2)
-         const secondHalf = this.sortedData.slice(this.sortedData.length / 2, this.sortedData.length)
-         if (firstHalf.length % 2 === 0) {
-           const middle = (firstHalf.length / 2)
-           let two = (this.sortedData[middle - 1] + this.sortedData[middle])
-           quartileOne = (two / 2)
-           two = (this.sortedData[middle * 3 - 1] + this.sortedData[middle * 3])
-           quartileThree = (two / 2)
-         } else {
-           quartileOne = firstHalf[Math.floor(firstHalf.length / 2)]
-           quartileThree = secondHalf[Math.floor(secondHalf.length / 2)]
-         }
-       } else if (this.sortedData.length % 2 === 1) {
-         const medianIndex = Math.floor(this.sortedData.length / 2)
-         const firstHalf = this.sortedData.slice(0, medianIndex)
-         const middle = (firstHalf.length / 2)
-         let two = (this.sortedData[middle - 1] + this.sortedData[middle])
-         quartileOne = (two / 2)
-         two = (this.sortedData[middle * 3 - 1] + this.sortedData[middle * 3])
-         quartileThree = (two / 2)
-       }
-
        c.beginPath()
        c.moveTo(315, 78)
        c.lineTo(330, 78)
@@ -195,8 +170,8 @@ customElements.define('lm-diagram',
        c.rect(300, (202 * 0.25 + 78), 45, (202 * 0.50))
        c.stroke()
 
-       c.fillText(`Q1: ${quartileOne}`, 20, (202 * 0.75 + 78))
-       c.fillText(`Q3: ${quartileThree}`, 20, (202 * 0.25 + 78))
+       c.fillText(`Q1: ${this.descriptiveStatistics.quartileOne}`, 20, (202 * 0.75 + 78))
+       c.fillText(`Q3: ${this.descriptiveStatistics.quartileThree}`, 20, (202 * 0.25 + 78))
        c.fillText(`Median: ${this.descriptiveStatistics.median}`, 20, (202 * 0.50 + 78))
      }
 
