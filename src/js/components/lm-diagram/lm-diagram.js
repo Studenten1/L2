@@ -244,6 +244,7 @@ customElements.define('lm-diagram',
        c.fillText(`(${min + distance} - ${min + distance * 2}]`, 245, 320)
        c.fillText(`(${min + distance * 2} - ${min + distance * 3}]`, 362, 320)
        c.fillText(`(${min + distance * 3} - ${min + distance * 4}]`, 482, 320)
+       c.stroke()
 
        for (let i = 1; i < 5; i++) {
          let count = 0
