@@ -67,19 +67,46 @@ template.innerHTML = `
 
 <div>
     <div id="wrapper">
-      <h1>Welcome to the statistics app!</h3>
+      <h1>Welcome to the statistics app!</h1>
       <h3>Start by submitting the data which will be processed into descriptive statistics. <br><br> Please note that the data should be submitted like this:\n 1, 2.45, 0.35, 110, 39 </h3>
       <h2>Submit the data: </h2>
       <input><button>Submit</button>
     </div>
     <div id="startMenu" hidden>
-      <h1>Welcome to the statistics app!</h3>
-      <h3>Start by submitting the data which will be processed into descriptive statistics. <br><br> Please note that the data should be submitted like this:\n 1, 2.45, 0.35, 110, 39 </h3>
-      <h2>Submit the data: </h2>
-      <input><button>Submit</button>
+      <form id="form">
+        <p>Choose one of the following options:</p>
+          <div>
+            <input type="radio" id="a" name="choice" checked>
+            <label for="a">Get the data sorted from the lowest to the highest value</label>
+          </div>
+          <div>
+            <input type="radio" id="b" name="choice">
+            <label for="b">Get the descriptive statistics</label>
+          </div>
+          <div>
+            <input type="radio" id="c" name="choice">
+            <label for="c">Get a table of the descriptive statistics</label>
+          </div>
+          <div>
+            <input type="radio" id="d" name="choice">
+            <label for="c">Get a box-plot of the descriptive statistics</label>
+          </div>
+          <div>
+            <input type="radio" id="e" name="choice">
+            <label for="c">Get a bar chart of the descriptive statistics</label>
+          </div>
+          <div>
+            <button type="submit" id="submit">Submit</button>
+          </div>
+        </div>
+    </form>
+    </div>
+    <div id="window" hidden>
+      <h1></h1>
+      <img id="chart">
+      <button id="returnButton">Return to the menu</button>
     </div>
     <descriptive-statistics></descriptive-statistics>
-    <img id="chart">
 </div>
 `
 customElements.define('statistics-app',
@@ -95,6 +122,12 @@ customElements.define('statistics-app',
      #chart
      #button
      #input
+     #form
+     #submit
+     #returnButton
+     #window
+     #startMenu
+     #wrapper
 
      /**
       * The descriptive-statistics element.
@@ -116,9 +149,15 @@ customElements.define('statistics-app',
 
        // Get the elements in the shadow root.
        this.#chart = this.shadowRoot.querySelector('#chart')
-       this.#statistics = this.shadowRoot.querySelector('statistics')
+       this.#statistics = this.shadowRoot.querySelector('descriptive-statistics')
        this.#button = this.shadowRoot.querySelector('button')
        this.#input = this.shadowRoot.querySelector('input')
+       this.#form = this.shadowRoot.querySelector('#form')
+       this.#submit = this.shadowRoot.querySelector('#submit')
+       this.#returnButton = this.shadowRoot.querySelector('#returnButton')
+       this.#window = this.shadowRoot.querySelector('#window')
+       this.#startMenu = this.shadowRoot.querySelector('#startMenu')
+       this.#wrapper = this.shadowRoot.querySelector('#wrapper')
      }
 
      /**
@@ -127,31 +166,50 @@ customElements.define('statistics-app',
      connectedCallback () {
        this.#button.addEventListener('click', event => {
          this.#statistics.inputData([this.#input.value])
+         this.#wrapper.hidden = true
+         this.#startMenu.hidden = false
+         event.preventDefault()
+         event.stopPropagation()
+       })
+
+       this.#submit.addEventListener('click', event => {
+         this.#startMenu.hidden = true
+         this.#window.hidden = false
+         if (this.#form.elements[1].checked === true) {
+           const arrayOfSortedData = this.#statistics.getSortedData()
+           this.#window.firstElementChild.textContent = arrayOfSortedData
+         } else if (this.#form.elements[2].checked === true) {
+           const descriptiveStatistics = this.#statistics.getStatistics()
+           this.#window.firstElementChild.textContent = descriptiveStatistics
+         } else if (this.#form.elements[3].checked === true) {
+           const tableUrl = this.#statistics.getTableImgPath()
+           this.#window.firstElementChild.textContent = 'This is a table of the descriptive statistics'
+           tableUrl.then((value) => {
+             this.#chart.src = value
+           })
+         } else if (this.#form.elements[4].checked === true) {
+           const boxPlotUrl = this.#statistics.getBoxPlotImgPath()
+           this.#window.firstElementChild.textContent = 'This is a box-plot of the descriptive statistics'
+           boxPlotUrl.then((value) => {
+             this.#chart.src = value
+           })
+         } else {
+           const barChartUrl = this.#statistics.getBarChartImgPath()
+           this.#window.firstElementChild.textContent = 'This is a bar chart of the descriptive statistics'
+           barChartUrl.then((value) => {
+             this.#chart.src = value
+           })
+         }
+         event.preventDefault()
+         event.stopPropagation()
+       })
+
+       this.#returnButton.addEventListener('click', event => {
+         this.#window.hidden = true
+         this.#wrapper.hidden = false
          event.preventDefault()
          event.stopPropagation()
        })
      }
-
-     /* 
-     const result = Statistics.getStatistics()
-     console.log(result)
-   
-     const sortedValues = Statistics.getSortedData()
-     console.log(sortedValues)
-   
-     const tablePath = Statistics.getTableImgPath()
-     tablePath.then((value) => {
-       console.log(value)
-     })
-   
-     const boxPath = Statistics.getBoxPlotImgPath()
-     boxPath.then((value) => {
-       console.log(value)
-     })
-   
-     const barchartPath = Statistics.getBarChartImgPath()
-     barchartPath.then((value) => {
-       console.log(value)
-     }) */
   }
 )
