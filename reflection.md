@@ -1,3 +1,12 @@
+# Information 
+Testerna finns här: [tests](./TESTS.md)
+Info till utvecklare finns här: [developer](./DEVELOPER.md)
+README.md med info till app-användare och Lib-användare: [README](./README.md)
+Vision och krav finns här: [vision](./VISION.md)
+
+
+# Kapitelreflektioner
+
 # Kapitel 2
 Kapitlet fokuserar på namngivning av metoder och variabler. Jag har verkligen försökt att tänka på att skapa meningsfull namngivning. Namnet ska tillföra info till andra programmerare och på så sätt göra det enkelt att sätta sig in i koden. Jag har också tänkt mycket på att namnen inte är missvisande, utan verkligen reflekterar vad metoden gör. Därför har jag brutit ut funktionaliteten toDataURL() från draw-metoderna för att inte skapa sidoeffekter. ![kapitel2](./src/images/kapitel2.PNG).
 

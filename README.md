@@ -1,5 +1,7 @@
 # Info to the user of the statistics-app
 
+This is a Single-Page Application and a web application. If you have an amount of numbers and wish to process the data into descriptive statistics, this is the right application for you. Furthermore, this app returns diagrams like table diagram, bar chart and box-plot. The purpose of this app is to offer an overview of the submitted data through diagrams and descriptive statistics.
+
 You should import the statistics-app component. When it is added to the DOM it will start with the "npm run dev" command. Follow the instructions in the web application, submit the data and then choose the different options for viewing descriptive statistics.
 
 ## statistics-app
