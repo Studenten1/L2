@@ -2,10 +2,6 @@
 
 You should import the statistics-app component. When it is added to the DOM it will start with the "npm run dev" command. Follow the instructions in the web application, submit the data and then choose the different options for viewing descriptive statistics.
 
-# Info to the app-developer
-
-You should import the statistics-app component. When it is added to the DOM it will start with the "npm run dev" command. The statistics-app component can be found in  [app](./src/js/components/statistics-app/statistics-app.js). The app component is dependent on the descriptive-statistics module. 
-
 # Info to the user of the descriptive-statistics module
 
 You should import the descriptive-statistics component/module. Then there are six public methods which you can use: <br><br>
@@ -35,42 +31,6 @@ This method returns the path to the boxplot image as a Promise.
 
 This method returns the path to the bar chart image as a Promise.
 
-# Info to the module-developer
-
-The descriptive-statistics module is best accessed from the main script file. It can be found in  [start](./src/js/index.js). 
-To access the different public methods you can do the following: <br><br>
-
-const module = document.querySelector('descriptive-statistics')<br><br>
-try {
-  Statistics.inputData([4, 8, 2, 4, 4.5, 5, 8, 10.5, 11.23])
-
-  const result = Statistics.getStatistics()
-  console.log(result)
-
-  const sortedValues = Statistics.getSortedData()
-  console.log(sortedValues)
-
-  const tablePath = Statistics.getTableImgPath()
-  tablePath.then((value) => {
-    console.log(value)
-  })
-
-  const boxPath = Statistics.getBoxPlotImgPath()
-  boxPath.then((value) => {
-    console.log(value)
-  })
-
-  const barchartPath = Statistics.getBarChartImgPath()
-  barchartPath.then((value) => {
-    console.log(value)
-  })
-} catch (e) {
-  console.error(e.message)
-}
-
-If you want to change anything, go to the descriptive-statistics component. It imports the lm-diagram component that handles everything to do with the diagrams. 
-
-
 
 # statistics-app
 
@@ -79,6 +39,8 @@ This is a web application. The user can submit data and then choose an option fo
 # Start
 
 Use the "npm i" command and then "npm run dev". 
+You should now see something like this in the terminal: ![start](./src/images/start.PNG)
+<br>Press the link to localhost and a window will open where you will see the following view: ![startView](./src/images/startView.PNG)
 
 
 # descriptive-statistics module
